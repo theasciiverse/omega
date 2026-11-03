@@ -73,7 +73,7 @@ std::string version_string(int version)
 
 void user_character_stats()
 {
-  std::filesystem::path omegarc_path{std::format("{}/.omega.toml", get_home_path())};
+  std::filesystem::path omegarc_path{std::format("{}omega.toml", Omegadata)};
   if(std::filesystem::exists(omegarc_path))
   {
     queue_message("Would you like to load saved responses from your .omegarc? ");
@@ -638,7 +638,7 @@ void choose_seed()
 bool title_menu()
 {
   const std::string default_name       = Player.name;
-  std::filesystem::path save_directory = std::format("{}saves/{}", Omegalib, get_username());
+  std::filesystem::path save_directory = std::format("{}saves/{}", Omegadata, get_username());
 
   size_t longest_line_length = 16;
   std::vector<std::filesystem::path> save_file_paths;

@@ -76,6 +76,7 @@ endif()
 add_library(omega-core STATIC
   src/game_session.cpp
   src/globals.cpp
+  src/paths.cpp
   src/abyss.cpp
   src/aux1.cpp
   src/aux2.cpp

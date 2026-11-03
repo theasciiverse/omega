@@ -1,0 +1,38 @@
+# System packages (.deb, .rpm, .apk, Arch) for Omega, built by nfpm from the
+# same static binary as the av archive. The release workflow sets VERSION,
+# RELEASE (our packaging release) and ARCH (amd64 or arm64), with the binary
+# at out/omega. The data goes to /usr/share/omega, where the game looks
+# when there is no lib/ beside the binary (src/paths.cpp); players' files
+# stay in their own ~/.local/share/omega.
+#
+# No .desktop file on purpose: av is the one place titles are started from,
+# so Asciiverse packages never add menu entries.
+name: omega
+arch: ${ARCH}
+platform: linux
+version: ${VERSION}
+release: ${RELEASE}
+section: games
+priority: optional
+maintainer: Asciiverse <packages@asciiverse.sh>
+vendor: Asciiverse
+homepage: https://github.com/theasciiverse/omega
+license: GPL-3.0-or-later
+description: |
+  The 1987 roguelike with a whole world: city, countryside and guilds.
+  Laurence Brothers' Omega in Lyle Tafoya's C++ continuation, Omega
+  Rebirth: begin in the city of Rampart, join guilds and orders, and go
+  after the quests the wider country holds. Packaged by Asciiverse.
+contents:
+  - src: out/omega
+    dst: /usr/bin/omega
+    file_info: { mode: 0755 }
+  - src: lib/
+    dst: /usr/share/omega/
+    type: tree
+  - src: COPYING
+    dst: /usr/share/doc/omega/copyright
+    file_info: { mode: 0644 }
+  - src: PATCHES.md
+    dst: /usr/share/doc/omega/PATCHES.md
+    file_info: { mode: 0644 }

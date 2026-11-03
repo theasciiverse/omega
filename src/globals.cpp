@@ -25,6 +25,7 @@ Omega. If not, see <https://www.gnu.org/licenses/>.
 #include <string>
 
 const char *Omegalib;
+const char *Omegadata;
 
 int CitySiteList[NUMCITYSITES][3];
 

@@ -1242,7 +1242,7 @@ void save(int force)
     queue_message("Confirm Save? [yn] ");
     ok = (ynq() == 'y');
   }
-  std::string save_file_directory{std::format("{}saves/{}", Omegalib, get_username())};
+  std::string save_file_directory{std::format("{}saves/{}", Omegadata, get_username())};
   if(ok)
   {
     if(!std::filesystem::exists(save_file_directory))

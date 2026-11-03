@@ -40,7 +40,7 @@ extern std::string version_string(int version);
 
 bool save_omegarc(bool save_options, bool save_stats)
 {
-  std::string omegarc_path = std::format("{}/.omega.toml", get_home_path());
+  std::string omegarc_path = std::format("{}omega.toml", Omegadata);
   toml::table config;
   if(std::filesystem::exists(omegarc_path))
   {
@@ -105,7 +105,7 @@ bool save_omegarc(bool save_options, bool save_stats)
 
 bool read_omegarc(bool read_options, bool read_stats)
 {
-  std::string omegarc_path{std::format("{}/.omega.toml", get_home_path())};
+  std::string omegarc_path{std::format("{}omega.toml", Omegadata)};
   if(!std::filesystem::exists(omegarc_path))
   {
     queue_message("omegarc not found!");
@@ -425,7 +425,7 @@ void lock_score_file()
   int attempts = 0;
   int64_t timestamp, last_timestamp = -1;
 
-  std::string filepath = std::format("{}omega.hi.lock", Omegalib);
+  std::string filepath = std::format("{}omega.hi.lock", Omegadata);
   std::fstream lock;
   do
   {
@@ -465,14 +465,14 @@ void lock_score_file()
 
 void unlock_score_file()
 {
-  std::filesystem::remove(std::format("{}omega.hi.lock", Omegalib));
+  std::filesystem::remove(std::format("{}omega.hi.lock", Omegadata));
 }
 
 void read_scores()
 {
   lock_score_file();
 
-  std::string high_scores_file_path = std::format("{}omega.hi", Omegalib);
+  std::string high_scores_file_path = std::format("{}omega.hi", Omegadata);
   std::fstream high_score_file      = check_fstream_open(high_scores_file_path, std::ios::in);
 
   std::getline(high_score_file, Hiscorer);
@@ -518,9 +518,9 @@ void save_hiscore_npc(int npc)
     return;
   }
   lock_score_file();
-  std::string infile_name  = std::format("{}omega.hi", Omegalib);
+  std::string infile_name  = std::format("{}omega.hi", Omegadata);
   std::fstream infile      = check_fstream_open(infile_name, std::ios::in);
-  std::string outfile_name = std::format("{}omega.hi.new", Omegalib);
+  std::string outfile_name = std::format("{}omega.hi.new", Omegadata);
   std::fstream outfile     = check_fstream_open(outfile_name, std::ios::out);
   for(int i = 0; i < 17; ++i)
   {
@@ -650,7 +650,7 @@ void extendlog(const std::string &descrip, int lifestatus)
   {
     int npcbehavior = fixnpc(lifestatus);
     checkhigh(descrip, npcbehavior);
-    FILE *fd = checkfopen(std::format("{}omega.log", Omegalib), "a");
+    FILE *fd = checkfopen(std::format("{}omega.log", Omegadata), "a");
     fprintf(fd, " %d %d %d %s\n", lifestatus, Player.level, npcbehavior, Player.name.c_str());
     fclose(fd);
   }
@@ -691,6 +691,10 @@ int filecheck()
   for(const std::string &file_name : required_file_list)
   {
     std::string file_path = omega_lib_path + file_name;
+    if(file_name == "omega.hi" || file_name == "omega.log")
+    {
+      file_path = std::string(Omegadata) + file_name; // Asciiverse: the player's copy
+    }
     if(file_name == "omega.hi" || file_name == "omega.log")
     {
       if(!test_file_access(file_path, 'w'))

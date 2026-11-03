@@ -42,6 +42,9 @@ extern std::unique_ptr<interactive_menu> menu;
 // This string holds the path to the library files
 extern const char *Omegalib;
 
+// Asciiverse: the player's folder (saves, hall of fame, log, omega.toml)
+extern const char *Omegadata;
+
 // one of each item
 extern object Objects[TOTALITEMS];
 

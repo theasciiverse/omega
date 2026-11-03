@@ -981,7 +981,7 @@ void make_log_npc(monster *npc)
   int behavior = 2718, level = 1, status = 2;
   std::string npc_name = "Malaprop the Misnamed";
 
-  std::string file_path = std::format("{}omega.log", Omegalib);
+  std::string file_path = std::format("{}omega.log", Omegadata);
   std::fstream log_file = check_fstream_open(file_path, std::ios::in);
   std::string buffer;
   for(int n = 1; std::getline(log_file, buffer); ++n)

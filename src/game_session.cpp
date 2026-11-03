@@ -22,6 +22,7 @@ Omega. If not, see <https://www.gnu.org/licenses/>.
 #include "game_session.h"
 
 #include "glob.h"
+#include "paths.h"
 #include "scr.h"
 
 #include <cctype>
@@ -140,12 +141,12 @@ void inititem(int reset)
 
 InitResult init_game_session()
 {
-#ifdef USER_DEFINED_OMEGALIB
-  if(!(Omegalib = getenv("OMEGALIB")))
-#endif
-  {
-    Omegalib = OMEGALIB;
-  }
+  // Asciiverse: data beside the binary, the player's files in their own
+  // folder (paths.h); OMEGALIB still overrides the data folder
+  static const std::string lib_dir  = find_lib_dir();
+  static const std::string data_dir = find_data_dir(lib_dir);
+  Omegalib  = lib_dir.c_str();
+  Omegadata = data_dir.c_str();
 
   if(!filecheck())
   {
@@ -167,7 +168,7 @@ InitResult init_game_session()
   bool continuing = false;
 
 #ifdef MULTI_USER_SYSTEM
-  continuing = game_restore(std::format("{}saves/{}/{}.sav", Omegalib, get_username(), Player.name));
+  continuing = game_restore(std::format("{}saves/{}/{}.sav", Omegadata, get_username(), Player.name));
   showscores();
   if(!continuing)
   {

@@ -4,3 +4,6 @@ omega
 *.swp
 build
 .cache
+out/
+stage/
+dist/
